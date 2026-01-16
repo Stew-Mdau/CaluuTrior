@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Order {{ product.name }}</h2>
+    <img src="{{ product.image.url }}" width="150"><br>
+    <p>Price: ${{ product.price }}</p>
+    <p>Available Stock: {{ product.stock }}</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Confirm Order</button>
+    </form>
+    <br>
+    <a href="{% url 'product_list' %}">Back to Store</a>
+</body>
+</html>

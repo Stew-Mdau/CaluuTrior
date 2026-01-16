@@ -1,0 +1,15 @@
+# Virtual Environment
+myproject2/
+venv/
+env/
+ENV/
+
+# Django files
+db.sqlite3
+__pycache__/
+*.py[cod]
+media/
+
+# IDE files
+.vscode/
+.idea/

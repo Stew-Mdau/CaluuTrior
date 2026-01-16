@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            <p style="padding:10px; background:#d4edda; color:#155724;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+   <h2>Payment for Order #{{ order.id }}</h2>
+<p>Product: {{ order.product.name }}</p>
+<p>Total to Pay: <strong>${{ order.total_price }}</strong></p>
+
+<div style="background: #fff3cd; padding: 20px; border: 1px solid #ffeeba; margin-top: 20px;">
+    <h3>Payment Instructions</h3>
+    <p>Please send the total amount to the following number:</p>
+    <h2 style="color: #856404;">{{ payment_number }}</h2>
+    <p>Reference: Order #{{ order.id }}</p>
+</div>
+
+<a href="{% url 'product_list' %}">Return to Store</a>
+</body>
+</html>

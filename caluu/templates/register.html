@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Create a Customer Account</h2>
+
+    {% if form.errors %}
+        <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 10px;">
+            <p><strong>Please fix the following:</strong></p>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</body>
+</html>
