@@ -1,20 +1,74 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join CaluuTrior</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; min-height: 100vh; display: flex; align-items: center; }
+        .register-card { border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 500px; margin: auto; }
+        .register-header { background: #198754; color: white; padding: 25px; border-radius: 20px 20px 0 0; text-align: center; }
+        .form-control { border-radius: 8px; padding: 10px; }
+        /* Fix for Django's default error lists */
+        .errorlist { color: #dc3545; font-size: 0.85rem; padding-left: 0; list-style: none; margin-bottom: 10px; }
+        .helptext { font-size: 0.75rem; color: #6c757d; display: block; margin-top: 5px; }
+    </style>
+</head>
 <body>
-    <h2>Create a Customer Account</h2>
 
-    {% if form.errors %}
-        <div style="color: red; border: 1px solid red; padding: 10px; margin-bottom: 10px;">
-            <p><strong>Please fix the following:</strong></p>
-            {{ form.errors }}
+<div class="container py-5">
+    <div class="card register-card">
+        <div class="register-header">
+            <h3 class="fw-bold mb-0">Create Account</h3>
+            <p class="small mb-0 opacity-75">Join CaluuTrior Today</p>
         </div>
-    {% endif %}
-    
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        
+        <div class="card-body p-4">
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger small">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">{{ field.label }}</label>
+                        {{ field }}
+                        
+                        {% if field.errors %}
+                            <div class="mt-1">{{ field.errors }}</div>
+                        {% endif %}
+
+                        {% if field.help_text %}
+                            <div class="helptext">{{ field.help_text|safe }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success rounded-pill py-2 fw-bold">Register Now</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4">
+                <p class="mb-0 text-muted small">Already have an account? <a href="{% url 'login' %}" class="text-success text-decoration-none fw-bold">Login here</a></p>
+                <hr>
+                <a href="{% url 'product_list' %}" class="text-muted small text-decoration-none">← Back to Shop</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Style all inputs with Bootstrap
+    document.querySelectorAll('input').forEach(el => {
+        el.classList.add('form-control');
+    });
+</script>
 </body>
 </html>

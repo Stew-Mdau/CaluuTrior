@@ -1,19 +1,115 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login - CaluuTrior</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .login-card {
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .login-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .btn-login {
+            border-radius: 50px;
+            padding: 12px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+        }
+        .form-control {
+            border-radius: 10px;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-</form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            
+            <div class="text-center mb-4">
+                <a href="{% url 'product_list' %}" class="text-decoration-none text-muted small">
+                    ← Back to CaluuTrior Shop
+                </a>
+            </div>
 
-<p>New Customer? <a href="{% url 'register' %}">Create account</a></p>
+            <div class="card login-card">
+                <div class="login-header">
+                    <h3 class="fw-bold mb-0">Welcome Back</h3>
+                    <p class="small mb-0 opacity-75">Login to manage your orders</p>
+                </div>
+                
+                <div class="card-body p-4">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} small py-2">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        {# We loop through the fields to apply Bootstrap classes #}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold text-secondary">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger extra-small">{{ field.errors }}</div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-login">
+                                Log In
+                            </button>
+                        </div>
+                    </form>
+
+                    <hr class="my-4 text-muted">
+
+                    <div class="text-center">
+                        <p class="mb-0 text-muted small">New Customer?</p>
+                        <a href="{% url 'register' %}" class="fw-bold text-primary text-decoration-none">Create an account</a>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-muted mt-4 small">© 2026 CaluuTrior Store</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('input').forEach(function(el) {
+        el.classList.add('form-control');
+        // Add placeholders for a cleaner look
+        if(el.type === 'text') el.placeholder = 'Username';
+        if(el.type === 'password') el.placeholder = '••••••••';
+    });
+</script>
+
 </body>
 </html>

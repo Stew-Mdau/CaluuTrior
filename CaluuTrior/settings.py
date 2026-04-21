@@ -127,6 +127,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+import os
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'), # Only if you have a global static folder
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -134,3 +139,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = 'product_list'
 LOGIN_REDIRECT_URL = 'product_list'
+
+# CaluuTrior/settings.py
+
+# Switch to the SMTP backend
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+# Your Gmail address
+EMAIL_HOST_USER = 'modestusaloysius@gmail.com' 
+
+# Your 16-character App Password (NOT your regular login password)
+EMAIL_HOST_PASSWORD = 'kuql fsqc epcz dlxp' 
+
+# This is what people see in the "From" field
+DEFAULT_FROM_EMAIL = 'CaluuTrior Shop <modestusaloysius@gmail.com>'

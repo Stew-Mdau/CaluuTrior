@@ -1,18 +1,111 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Edit Product - CaluuTrior</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .edit-card { border-radius: 20px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* The Preview Box */
+        .preview-box {
+            width: 100%;
+            height: 250px;
+            background-color: #e9ecef;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 2px dashed #dee2e6;
+        }
+
+        #image-preview {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
-    <h2>Edit Product</h2>
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Update</button>
-</form>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
+            <div class="mb-3 d-flex justify-content-between">
+                <a href="{% url 'product_list' %}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">← Back to Shop</a>
+               {# <a href="{% url 'product_list' %}" class="text-muted small mt-1">Main Page</a> #}
+            </div>
+
+            <div class="card edit-card p-4">
+                <h2 class="text-center fw-bold mb-4">Edit Product</h2>
+
+                <div class="text-center">
+                    <label class="form-label fw-bold text-muted" id="status-label">Current Image</label>
+                    <div class="preview-box">
+                        {% if product.image %}
+                            <img id="image-preview" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <span id="no-image-text" class="text-muted">No Image Uploaded</span>
+                            <img id="image-preview" src="" style="display:none;">
+                        {% endif %}
+                    </div>
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small text-uppercase text-secondary">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary rounded-pill py-2 fw-bold">Update Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Style all inputs to look like Bootstrap
+    document.querySelectorAll('input, select, textarea').forEach(el => {
+        el.classList.add('form-control');
+        el.classList.add('rounded-3');
+    });
+
+    // 2. JS for LIVE PREVIEW when selecting a NEW file
+    const imageInput = document.querySelector('input[type="file"]');
+    const previewImage = document.getElementById('image-preview');
+    const statusLabel = document.getElementById('status-label');
+    const noImageText = document.getElementById('no-image-text');
+
+    if (imageInput) {
+        imageInput.onchange = evt => {
+            const [file] = imageInput.files;
+            if (file) {
+                // If there was no image before, hide the text and show the img tag
+                if (noImageText) noImageText.style.display = 'none';
+                previewImage.style.display = 'block';
+
+                // Update the source to the new file
+                previewImage.src = URL.createObjectURL(file);
+                
+                // Update label to tell the user it's a new selection
+                statusLabel.innerText = "New Image Selection (Preview)";
+                statusLabel.className = "form-label fw-bold text-success";
+            }
+        }
+    }
+</script>
 </body>
 </html>
