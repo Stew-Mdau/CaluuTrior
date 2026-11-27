@@ -140,17 +140,6 @@ Open:
 
 ## Email Configuration
 
-The project uses Gmail SMTP for account and order notifications. Store credentials in environment variables instead of `settings.py`.
-
-```python
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
-```
 
 Use a Gmail app password rather than a regular account password.
 
@@ -160,22 +149,6 @@ The application currently uses a manual payment workflow: customers report a pay
 
 ## Development Configuration
 
-The current settings are intended for local development:
-
-- `DEBUG = True`
-- SQLite database
-- Media files stored in `media/`
-- Static files loaded from project and application directories
-
-Before deployment:
-
-- Move `SECRET_KEY`, SMTP credentials, debug mode, and allowed hosts to environment variables
-- Remove `*` from `ALLOWED_HOSTS`
-- Set `DEBUG = False`
-- Enable HTTPS and secure cookies
-- Use a production database
-- Configure static and media file storage
-- Add automated tests
 
 ## Testing
 
@@ -193,24 +166,7 @@ python manage.py test
 
 Test coverage should include authentication, product catalogues, cart totals, checkout, stock management, order status changes, and seller authorization.
 
-## Security Notes
-
-- Never commit passwords, API keys, app passwords, or `SECRET_KEY` values.
-- Revoke and replace any credential already committed to Git history.
-- Add `.env`, `db.sqlite3`, `media/`, `venv/`, and Python cache files to `.gitignore`.
-- Keep local and production credentials separate.
-
-## Project Details
-
-- **Repository:** <https://github.com/Stew-Mdau/CaluuTrior>
-- **Default branch:** `main`
-- **Visibility:** Private
-- **License:** Not specified
 
 ## Author
 
 Stew-Mdau
-
-## License
-
-No license has been specified. A license should be added before others are permitted to reuse or distribute the project.
