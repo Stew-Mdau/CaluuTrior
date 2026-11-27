@@ -1,6 +1,6 @@
 # CaluuTrior
 
-A web development practice project built with Django, HTML, and CSS.
+A web development project built with Django, HTML, and CSS.
 
 ## Overview
 
