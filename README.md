@@ -1,46 +1,35 @@
 # CaluuTrior
 
-A Django-based e-commerce web application for browsing products, managing a shopping cart, placing orders, reporting payments, and administering products and orders.
+A Django-based e-commerce web application for selling non-programmable scientific calculators.
 
 ## Overview
 
-CaluuTrior is a learning project built with Django, HTML, and CSS. It demonstrates user authentication, Django models and forms, template rendering, cart management, order processing, media uploads, email notifications, and a staff-only order management interface.
-
-**Language composition:**
-
-- HTML: 66.3%
-- Python: 33.7%
+CaluuTrior is an online store for non-programmable scientific calculators. Customers can browse calculator products, create an account, manage a shopping cart, place orders, and track their purchases. Staff users can manage products and customer orders.
 
 ## Features
 
 ### Customers
 
 - Register and log in
-- Browse available products
+- Browse available calculator products
+- View product names, descriptions, prices, images, and stock
 - Add products to a shopping cart
 - Increase or reduce cart quantities
 - Remove items from the cart
 - Place direct orders using **Buy Now**
 - Checkout all cart items as one transaction
-- Report a payment as paid
+- Report payments
 - View personal order history
 - Cancel eligible pending orders
 
 ### Staff
 
-- Add, edit, and delete products
-- Manage product names, descriptions, prices, images, and stock
+- Add, edit, and delete calculator products
+- Manage product descriptions, prices, images, and stock
 - View customer orders
-- Confirm customer payments and completed orders
+- Confirm reported payments
+- Complete or cancel orders
 - Return stock when an order is cancelled
-
-### Other functionality
-
-- Django administration interface
-- Product image uploads with media handling
-- Gmail SMTP email notifications
-- SQLite database for development
-- Password validation and Django authentication
 
 ## Tech Stack
 
@@ -59,7 +48,7 @@ CaluuTrior/
 │   ├── urls.py
 │   ├── asgi.py
 │   └── wsgi.py
-├── caluu/                  # Main application
+├── caluu/                  # Main store application
 │   ├── migrations/
 │   ├── static/
 │   ├── templates/
@@ -77,7 +66,7 @@ CaluuTrior/
 - Python 3.10 or later
 - Django 5.2.8
 - Pillow
-- An SMTP email account for email notifications
+- An SMTP email account for notifications
 
 ## Getting Started
 
@@ -110,8 +99,6 @@ venv\Scripts\activate
 pip install django==5.2.8 pillow
 ```
 
-> `requirements.txt` is recommended before deploying or sharing the project so all dependencies can be installed consistently.
-
 ### 4. Apply database migrations
 
 ```bash
@@ -124,7 +111,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-The administrator account can access the staff interface and Django admin panel.
+The administrator account can access the Django admin and staff order interface.
 
 ### 6. Run the development server
 
@@ -134,14 +121,14 @@ python manage.py runserver
 
 Open:
 
-- Application: <http://127.0.0.1:8000/>
+- Store: <http://127.0.0.1:8000/>
 - Admin panel: <http://127.0.0.1:8000/admin/>
 
 ## Main Routes
 
 | Route | Purpose |
 |---|---|
-| `/` | Product list |
+| `/` | Product catalogue |
 | `/register/` | Customer registration |
 | `/login/` | Customer login |
 | `/cart/` | Shopping cart |
@@ -149,13 +136,11 @@ Open:
 | `/my-orders/` | Customer order history |
 | `/seller/orders/` | Staff order management |
 | `/product/add/` | Add a product (staff only) |
-| `/admin/` | Django admin |
+| `/admin/` | Django administration |
 
 ## Email Configuration
 
-The project uses Gmail SMTP. Before running it, configure email settings securely using environment variables rather than storing credentials in `settings.py`.
-
-For example:
+The project uses Gmail SMTP for account and order notifications. Store credentials in environment variables instead of `settings.py`.
 
 ```python
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
@@ -167,23 +152,11 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 ```
 
-Set values in your shell or environment configuration:
+Use a Gmail app password rather than a regular account password.
 
-```bash
-export EMAIL_HOST_USER="your-email@example.com"
-export EMAIL_HOST_PASSWORD="your-app-password"
-export DEFAULT_FROM_EMAIL="CaluuTrior Shop <your-email@example.com>"
-```
+## Payment Notice
 
-On Windows PowerShell:
-
-```powershell
-$env:EMAIL_HOST_USER="your-email@example.com"
-$env:EMAIL_HOST_PASSWORD="your-app-password"
-$env:DEFAULT_FROM_EMAIL="CaluuTrior Shop <your-email@example.com>"
-```
-
-Use a Gmail app password instead of a regular account password.
+The application currently uses a manual payment workflow: customers report a payment and staff members approve or complete the order. It does not verify payments through an external payment provider.
 
 ## Development Configuration
 
@@ -192,23 +165,17 @@ The current settings are intended for local development:
 - `DEBUG = True`
 - SQLite database
 - Media files stored in `media/`
-- Static files loaded from the application and project directories
+- Static files loaded from project and application directories
 
-Before deployment, the project should:
+Before deployment:
 
 - Move `SECRET_KEY`, SMTP credentials, debug mode, and allowed hosts to environment variables
 - Remove `*` from `ALLOWED_HOSTS`
 - Set `DEBUG = False`
-- Use HTTPS and secure cookies
-- Use a production database instead of SQLite
-- Configure static and media file storage for the deployment platform
+- Enable HTTPS and secure cookies
+- Use a production database
+- Configure static and media file storage
 - Add automated tests
-
-## Payment Notice
-
-The application currently provides a manual payment workflow: users report a payment and staff confirm the order. It does not currently verify transactions with a payment provider. Staff approval is required before an order is marked completed.
-
-Do not use real customer or payment information during development.
 
 ## Testing
 
@@ -224,14 +191,14 @@ Run tests:
 python manage.py test
 ```
 
-Test coverage should include authentication, cart totals, checkout, stock management, payment status changes, authorization, and staff order management.
+Test coverage should include authentication, product catalogues, cart totals, checkout, stock management, order status changes, and seller authorization.
 
 ## Security Notes
 
 - Never commit passwords, API keys, app passwords, or `SECRET_KEY` values.
-- If a credential has already been committed, revoke it and generate a replacement.
+- Revoke and replace any credential already committed to Git history.
 - Add `.env`, `db.sqlite3`, `media/`, `venv/`, and Python cache files to `.gitignore`.
-- Keep local development credentials separate from production credentials.
+- Keep local and production credentials separate.
 
 ## Project Details
 
